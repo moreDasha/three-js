@@ -1,14 +1,36 @@
-html {
-  height: 100%;
+* {
+  box-sizing: border-box;
 }
 
-body {
-  height: 100%;
+html {
+  min-height: 100%;
+}
+
+.body {
+  margin: 40px;
+  min-height: 100%;
   background-color: black;
+  color: white;
   display: flex;
   flex-direction: column;
+  gap: 24px;
   align-items: center;
-  justify-content: center;
+}
+
+h2 {
+  margin: 0;
+}
+
+.example {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.title {
+  width: 100%;
+  font-size: 24px;
 }
 
 .canvas {

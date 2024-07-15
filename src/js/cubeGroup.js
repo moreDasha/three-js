@@ -2,12 +2,16 @@ import * as THREE from 'three';
 
 export const cubeGroup = () => {
 
+  if (!document.querySelectorAll('.cube-group')) {
+    return
+  }
+
   const scene = new THREE.Scene();
-  const canvas = document.querySelector('.canvas');
+  const canvas = document.querySelector('.cube-group');
 
   const size = {
-    width: 600,
-    height: 600
+    width: document.documentElement.clientWidth * 0.75,
+    height: document.documentElement.clientWidth * 0.75 / 3 * 2
   };
 
   const camera = new THREE.PerspectiveCamera(75, size.width / size.height);
@@ -38,6 +42,7 @@ export const cubeGroup = () => {
 
   const render = new THREE.WebGLRenderer({canvas});
   render.setSize(size.width, size.height);
+  render.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   render.render(scene, camera);
 
   const clock = new THREE.Clock();
@@ -67,4 +72,15 @@ export const cubeGroup = () => {
   }
 
   animate();
+
+  window.addEventListener('resize', () => {
+    size.width = document.documentElement.clientWidth * 0.75;
+    size.height = document.documentElement.clientWidth * 0.75 / 3 * 2;
+
+    camera.aspect = size.width / size.height;
+    camera.updateProjectionMatrix();
+
+    render.setSize(size.width, size.height);
+    render.render(scene, camera);
+  });
 }

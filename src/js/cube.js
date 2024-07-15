@@ -1,13 +1,19 @@
 import * as THREE from 'three';
 
 export const cube = () => {
+
+  if (!document.querySelectorAll('.cube')) {
+    return
+  }
+
   // сцена
   const scene = new THREE.Scene();
+  const canvas = document.querySelector('.cube');
 
   // объект
   const geometry = new THREE.BoxGeometry(1, 1, 1);
   const material = new THREE.MeshBasicMaterial({
-    color: 'purple', 
+    color: '#DD64BF', 
     wireframe: true
   });
   const mesh = new THREE.Mesh(geometry, material);
@@ -32,23 +38,22 @@ export const cube = () => {
 
   // камера
   const size = {
-    width: 600,
-    height: 600
-  }
+    width: document.documentElement.clientWidth * 0.75,
+    height: document.documentElement.clientWidth * 0.75 / 3 * 2
+  };
   const camera = new THREE.PerspectiveCamera(75, size.width / size.height);
   camera.position.z = 3;
 
   scene.add(camera);
 
   // отрисовщик
-  const canvas = document.querySelector('.canvas');
   const renderer = new THREE.WebGLRenderer({ canvas });
 
   renderer.setSize(size.width, size.height);
-  //renderer.render(scene, camera);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.render(scene, camera);
 
   // анимация
-  let time = Date.now();
   const clock = new THREE.Clock;
 
   const startTick = () => {
@@ -59,4 +64,16 @@ export const cube = () => {
   }
 
   startTick();
+
+  // перерендеринг при ресайзе
+  window.addEventListener('resize', () => {
+    size.width = document.documentElement.clientWidth * 0.75;
+    size.height = document.documentElement.clientWidth * 0.75 / 3 * 2
+
+    camera.aspect = size.width / size.height;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(size.width, size.height);
+    renderer.render(scene, camera);
+  });
 }

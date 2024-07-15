@@ -7,7 +7,7 @@ import { cubeGroup } from './src/js/cubeGroup';
 import { cubeControls } from './src/js/cubeControls';
 
 document.addEventListener('DOMContentLoaded', function () {
-  //cube();
-  //cubeGroup();
+  cube();
+  cubeGroup();
   cubeControls();
 })
