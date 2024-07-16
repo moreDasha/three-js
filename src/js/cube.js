@@ -2,13 +2,13 @@ import * as THREE from 'three';
 
 export const cube = () => {
 
-  if (!document.querySelectorAll('.cube')) {
+  if (!document.querySelectorAll('.js-cube').length) {
     return
   }
 
   // сцена
   const scene = new THREE.Scene();
-  const canvas = document.querySelector('.cube');
+  const canvas = document.querySelector('.js-cube');
 
   // объект
   const geometry = new THREE.BoxGeometry(1, 1, 1);

@@ -2,12 +2,12 @@ import * as THREE from 'three';
 
 export const cubeGroup = () => {
 
-  if (!document.querySelectorAll('.cube-group')) {
+  if (!document.querySelectorAll('.js-cube-group').length) {
     return
   }
 
   const scene = new THREE.Scene();
-  const canvas = document.querySelector('.cube-group');
+  const canvas = document.querySelector('.js-cube-group');
 
   const size = {
     width: document.documentElement.clientWidth * 0.75,

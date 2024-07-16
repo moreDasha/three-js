@@ -3,12 +3,12 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 export const cubeControls = () => {
 
-  if (!document.querySelectorAll('.cube-controls')) {
+  if (!document.querySelectorAll('.js-cube-controls').length) {
     return
   }
 
   const scene = new THREE.Scene();
-  const canvas = document.querySelector('.cube-controls');
+  const canvas = document.querySelector('.js-cube-controls');
 
   const geometry = new THREE.BoxGeometry(1, 1, 1);
   const material = new THREE.MeshBasicMaterial({
