@@ -17,6 +17,10 @@ html {
   align-items: center;
 }
 
+.scroll-anim-body {
+  margin: 0;
+}
+
 h2 {
   margin: 0;
 }
@@ -51,4 +55,44 @@ h2 {
   left: -2px;
   width: calc(100% + 4px);
   height: calc(100% + 4px);
+}
+
+.scroll-anim-body {
+  position: relative;
+  z-index: 1;
+}
+
+.scroll-anim-body canvas {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+}
+
+.scroll-anim-main {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+}
+
+.text {
+  width: 45%;
+  font-size: 24px;
+}
+
+.color-green {
+  color: #c8fddd;
+}
+
+.color-yellow {
+  color: #fbfdc8;
+}
+
+.color-blue {
+  color: #c8dbfd;
+}
+
+.scroll-anim-section {
+  height: 100vh;
 }

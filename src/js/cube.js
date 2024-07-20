@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 
 export const cube = () => {
-
   if (!document.querySelectorAll('.js-cube').length) {
     return
   }
@@ -12,10 +11,8 @@ export const cube = () => {
 
   // объект
   const geometry = new THREE.BoxGeometry(1, 1, 1);
-  const material = new THREE.MeshBasicMaterial({
-    color: '#DD64BF', 
-    wireframe: true
-  });
+  const texture = new THREE.TextureLoader().load('img/texture_01.jpg');
+  const material = new THREE.MeshBasicMaterial({ map: texture });
   const mesh = new THREE.Mesh(geometry, material);
 
   // перемещение
@@ -42,7 +39,7 @@ export const cube = () => {
     height: document.documentElement.clientWidth * 0.75 / 3 * 2
   };
   const camera = new THREE.PerspectiveCamera(75, size.width / size.height);
-  camera.position.z = 3;
+  camera.position.z = 2;
 
   scene.add(camera);
 
