@@ -9,6 +9,7 @@ export const wavyImg = () => {
 
   const img = new Image();
   img.src = canvasWrap.getAttribute('data-src');
+  console.log('Image source:', img.src);
 
   const size = {
     width: canvasWrap.offsetWidth,
@@ -17,7 +18,7 @@ export const wavyImg = () => {
   const deviceScale = Math.min(window.devicePixelRatio, 2);
   let speed = 1;
   const partsAmount = 250;
-  const partsWidth = img.width / partsAmount;
+  let partsWidth;
 
   const animate = () => {
     speed += 0.1;
@@ -47,7 +48,10 @@ export const wavyImg = () => {
   canvas.height = size.height * deviceScale;
   context.scale(deviceScale, deviceScale);
 
-  img.addEventListener('load', animate);
+  img.addEventListener('load', () => {
+    partsWidth = img.width / partsAmount;
+    animate()
+  });
 
   window.addEventListener('resize', () => {
     size.width = canvasWrap.offsetWidth;

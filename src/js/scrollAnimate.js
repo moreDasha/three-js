@@ -1,21 +1,15 @@
 import * as THREE from 'three';
 
 export const scrollAnimate = () => {
-  if (!document.querySelectorAll('.js-scroll-anim').length) {
-    return
-  };
+  if (!document.querySelectorAll('.js-scroll-anim').length) return
 
   const scene = new THREE.Scene();
   const canvas = document.querySelector('.js-scroll-anim');
+  const page = document.documentElement;
+  const pageHeight = page.scrollHeight - page.clientHeight;
 
   const ambientLight = new THREE.AmbientLight('white', 1);
   scene.add(ambientLight);
-
-  /* const scrollProgress = () => {
-    const scrollPosition = document.documentElement.scrollTop;
-    const pageHeight = document.documentElement.scrollHeight;
-    return (scrollPosition / pageHeight) * 100;
-  } */
 
   const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
   const cubeMaterial = new THREE.MeshNormalMaterial();
@@ -28,9 +22,9 @@ export const scrollAnimate = () => {
     [cubeMaterialViolet, cubeMaterialYellow, cubeMaterialPink, cubeMaterialViolet, cubeMaterialBlue, cubeMaterialYellow]
   );
   cube.position.z = -2;
-  //cube.rotation.x = window.scrollY * 0.00001;
-  //cube.rotation.y = window.scrollY * 0.00001;
-  scene.add(cube);
+  cube.rotation.x = 0.4
+  cube.rotation.y = 0.6
+  //scene.add(cube);
 
   const sphereGeometry = new THREE.SphereGeometry(1, 64, 64);
   const material2 = new THREE.MeshBasicMaterial({
@@ -62,22 +56,17 @@ export const scrollAnimate = () => {
   }
   sphereAnimate();
 
-  let prevScrollPosition = 0;
+  const scrollProgress = () => {
+    const scrollPosition = page.scrollTop;
+    return (scrollPosition / pageHeight) * 100;
+  }
+
   const animateOnScroll = () => {
-    const currentScrollPosition = scrollProgress();
-    console.log(currentScrollPosition)
+    //cube.rotation.x = scrollProgress() * 0.08 + 0.4;
+    //cube.rotation.x += scrollProgress() * 0.001;
+    camera.position.z = (scrollProgress() * 0.035) - 3.5;
 
-    if (currentScrollPosition >= prevScrollPosition) {
-      cube.rotation.y += scrollProgress() * 0.001;
-      cube.rotation.x += scrollProgress() * 0.001;
-      //camera.position.z -= 0.01;
-    } else {
-      cube.rotation.y -= scrollProgress() * 0.001;
-      cube.rotation.x -= scrollProgress() * 0.001;
-      //camera.position.z -= 0.01;
-    }
-
-    prevScrollPosition = currentScrollPosition;
+    console.log(sphere.position.z)
   }
 
   window.addEventListener('scroll', animateOnScroll);
