@@ -1,16 +1,20 @@
 import * as THREE from 'three';
+import { SIZE } from './helper/size';
+import { updateOnResize } from './helper/updateOnResize';
 
 export const cube = () => {
   if (!document.querySelectorAll('.js-cube').length) {
-    return
+    return;
   }
 
   // сцена
   const scene = new THREE.Scene();
   const canvas = document.querySelector('.js-cube');
 
+  const size = SIZE;
+
   // объект
-  const geometry = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+  const geometry = new THREE.BoxGeometry(0.9, 0.9, 0.9);
   const texture = new THREE.TextureLoader().load('img/texture_01.jpg');
   const material = new THREE.MeshBasicMaterial({ map: texture });
   const mesh = new THREE.Mesh(geometry, material);
@@ -34,17 +38,13 @@ export const cube = () => {
   scene.add(mesh);
 
   // камера
-  const size = {
-    width: document.documentElement.clientWidth * 0.75,
-    height: document.documentElement.clientWidth * 0.75 / 3 * 2
-  };
 
   // const aspectRatio = size.width / size.height;
   // const camera = new THREE.OrthographicCamera(-1 * aspectRatio, 1 * aspectRatio, 1, -1, 0.1, 100);
 
   const camera = new THREE.PerspectiveCamera(75, size.width / size.height);
   camera.position.z = 2;
-  camera.lookAt(mesh.position)
+  camera.lookAt(mesh.position);
 
   scene.add(camera);
 
@@ -56,28 +56,39 @@ export const cube = () => {
   renderer.render(scene, camera);
 
   // анимация
-  const clock = new THREE.Clock;
+  const clock = new THREE.Clock();
 
   const startTick = () => {
-     const elepsedTime = clock.getElapsedTime();
-     //mesh.position.x = Math.sin(elepsedTime);
-     //mesh.position.y = Math.cos(elepsedTime);
-     mesh.rotation.y = elepsedTime;
-     renderer.render(scene, camera);
-     window.requestAnimationFrame(startTick)
-  }
+    const elepsedTime = clock.getElapsedTime();
+    //mesh.position.x = Math.sin(elepsedTime);
+    //mesh.position.y = Math.cos(elepsedTime);
+    mesh.rotation.y = elepsedTime;
+    renderer.render(scene, camera);
+    window.requestAnimationFrame(startTick);
+  };
 
   startTick();
 
   // перерендеринг при ресайзе
   window.addEventListener('resize', () => {
-    size.width = document.documentElement.clientWidth * 0.75;
-    size.height = document.documentElement.clientWidth * 0.75 / 3 * 2
-
-    camera.aspect = size.width / size.height;
-    camera.updateProjectionMatrix();
-
-    renderer.setSize(size.width, size.height);
-    renderer.render(scene, camera);
+    updateOnResize(size, camera, renderer, scene);
   });
-}
+
+  // переход в полноэкранный режим
+  // window.addEventListener('dblclick', () => {
+  //  const fullScreenElement = document.fullscreenElement || document.webkitFullscreenElement
+  //  if (fullScreenElement) {
+  //    if (document.exitFullscreen) {
+  //      document.exitFullscreen()
+  //    } else if (document.webkitExitFullscreen) {
+  //      document.webkitExitFullscreen()
+  //    }
+  //   } else {
+  //    if (canvas.requestFullscreen) {
+  //      canvas.requestFullscreen()
+  //    } else if (canvas.webkitRequestFullscreen) {
+  //      canvas.webkitRequestFullscree()
+  //    }
+  //   }
+  // }) 
+};

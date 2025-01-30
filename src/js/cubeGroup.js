@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { SIZE } from './helper/size';
+import { updateOnResize } from './helper/updateOnResize';
 
 export const cubeGroup = () => {
 
@@ -9,10 +11,7 @@ export const cubeGroup = () => {
   const scene = new THREE.Scene();
   const canvas = document.querySelector('.js-cube-group');
 
-  const size = {
-    width: document.documentElement.clientWidth * 0.75,
-    height: document.documentElement.clientWidth * 0.75 / 3 * 2
-  };
+  const size = SIZE
 
   const camera = new THREE.PerspectiveCamera(75, size.width / size.height);
   camera.position.z = 3;
@@ -74,13 +73,6 @@ export const cubeGroup = () => {
   animate();
 
   window.addEventListener('resize', () => {
-    size.width = document.documentElement.clientWidth * 0.75;
-    size.height = document.documentElement.clientWidth * 0.75 / 3 * 2;
-
-    camera.aspect = size.width / size.height;
-    camera.updateProjectionMatrix();
-
-    render.setSize(size.width, size.height);
-    render.render(scene, camera);
+    updateOnResize(size, camera, render, scene);
   });
 }

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { updateOnResize } from './helper/updateOnResize';
 
 export const cubeOrbitControls = () => {
 
@@ -10,12 +11,14 @@ export const cubeOrbitControls = () => {
   const scene = new THREE.Scene();
   const canvas = document.querySelector('.js-cube-orbit-controls');
 
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
+  const geometry = new THREE.BoxGeometry(1.1, 1.1, 1.1, 8, 8, 8);
   const material = new THREE.MeshBasicMaterial({
     color: '#FFB600', 
     wireframe: true
   });
   const mesh = new THREE.Mesh(geometry, material);
+  mesh.rotation.x = Math.PI * 0.2;
+  mesh.rotation.y = Math.PI * 0.2;
   scene.add(mesh);
 
   const size = {
@@ -43,13 +46,6 @@ export const cubeOrbitControls = () => {
   animate();
 
   window.addEventListener('resize', () => {
-    size.width = document.documentElement.clientWidth * 0.75;
-    size.height = document.documentElement.clientWidth * 0.75 / 3 * 2
-
-    camera.aspect = size.width / size.height;
-    camera.updateProjectionMatrix();
-
-    renderer.setSize(size.width, size.height);
-    renderer.render(scene, camera);
+    updateOnResize(size, camera, renderer, scene);
   });
 }
