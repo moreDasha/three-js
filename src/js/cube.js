@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { GUI } from 'lil-gui';
+import gsap from 'gsap';
 import { SIZE } from './helper/size';
 import { updateOnResize } from './helper/updateOnResize';
 
@@ -17,6 +19,7 @@ export const cube = () => {
   const geometry = new THREE.BoxGeometry(0.9, 0.9, 0.9);
   const texture = new THREE.TextureLoader().load('img/texture_01.jpg');
   const material = new THREE.MeshBasicMaterial({ map: texture });
+  //const material = new THREE.MeshBasicMaterial({color: '#FFB600'});
   const mesh = new THREE.Mesh(geometry, material);
 
   // перемещение
@@ -36,6 +39,26 @@ export const cube = () => {
   // mesh.rotation.z = Math.PI * 0.1;
 
   scene.add(mesh);
+
+  // дебаг-панель
+  const gui = new GUI();
+
+  const parameters = {
+    color: '#ffffff',
+    animate: () => {
+      gsap.to(mesh.rotation, {duration: 1, x: mesh.rotation.x + 10});
+    }
+  };
+
+  gui.add(mesh, 'visible');
+  gui.add(material, 'wireframe');
+  gui.add(mesh.position, 'x').min(-3).max(3).step(0.01);
+  gui.add(mesh.position, 'y').min(-3).max(3).step(0.01);
+  gui.add(mesh.position, 'z').min(-3).max(3).step(0.01);
+  gui.addColor(parameters, 'color').onChange(() => {
+    material.color.set(colorData.color)
+  });
+  gui.add(parameters, 'animate')
 
   // камера
 
